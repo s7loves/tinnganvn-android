@@ -11,8 +11,6 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
-
 public abstract class NetworkUtil {
 	public static Object invokeSoapMethod(String namespace, String methodName,
 			Map<String, Object> params, String url) throws IOException,
@@ -24,18 +22,13 @@ public abstract class NetworkUtil {
 			request.addProperty(entry.getKey(), entry.getValue());
 		}
 		
-		for(Entry<String, Object> entry: entries) {
-			Log.i(entry.getKey(), request.getProperty(entry.getKey()).toString());
-		}
-		
-		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-				SoapEnvelope.VER11); // put all required data into a soap
-										// envelope
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.setOutputSoapObject(request); // prepare request
 		HttpTransportSE httpTransport = new HttpTransportSE(url);
+		//httpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 		httpTransport.debug = true;
 		envelope.dotNet = true;
-		httpTransport.call("http://tempuri.org/" + methodName, envelope);
+		httpTransport.call(namespace + methodName, envelope);
 		Object result = envelope.getResponse();
 		return result;
 	}
