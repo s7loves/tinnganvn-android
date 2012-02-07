@@ -1,6 +1,16 @@
 package com.viettelcdc.tinngan.entity;
 
-public class Category {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Category implements Serializable {
 	public String name;
-	public String id;
+	public int id;
+	
+	private List<Article> articles = new ArrayList<Article>();
+	
+	public List<Article> getAllArticles() {
+		return articles;
+	}
 }
