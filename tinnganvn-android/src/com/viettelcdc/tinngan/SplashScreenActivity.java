@@ -25,15 +25,15 @@ public class SplashScreenActivity extends Activity {
 			@Override
 			protected Void doInBackground(Void... params) {
 				startTime  = System.currentTimeMillis();
-		    	Object result = (new DownloadAllCategoriesInfoTask()).doInBackground(null);
+		    	Object result = DownloadAllCategoriesInfoTask.loadAllCategories();
 		    	
 		    	if(result instanceof Exception) {
 		    		((Exception) result).printStackTrace();
 		    	}
 		    	
-		    	category0 = TinnganvnApplication.getCategories().get(0);
+		    	category0 = Category.getAll().get(0);
 		
-		    	result = (new DownloadArticlesInfoTask()).doInBackground(new Object[]{category0, 1});
+		    	result = DownloadArticlesInfoTask.loadArticleToCategory(category0, 1);
 		    	
 		    	if(result instanceof Exception) {
 		    		((Exception) result).printStackTrace();
@@ -55,8 +55,7 @@ public class SplashScreenActivity extends Activity {
 					
 					@Override
 					public void run() {
-						Intent intent = new Intent(SplashScreenActivity.this, ArticleActivity.class);
-				    	intent.putExtra(ArticleActivity.CATEGORY_EXTRA, category0);
+						Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
 				    	startActivity(intent);
 				    	finish();
 					}

@@ -5,6 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category implements Serializable {
+	private transient static List<Category> categories = new ArrayList<Category>();
+	
+	public static List<Category> getAll() {
+		return categories;
+	}
+	
+	public static Category getById(int id) {
+		for(Category category: categories) {
+			if(id == category.id)
+				return category;
+		}
+		return null;
+	}
+	
 	public String name;
 	public int id;
 	

@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 
 public class DragToggleViewPager extends ViewPager {
 	private static final int SWIPE_MIN_DISTANCE = 120;
@@ -17,7 +18,8 @@ public class DragToggleViewPager extends ViewPager {
 
 	public DragToggleViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		dragEnabled = true;
+		setDragEnabled(false);
+		setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 	}
 	
 	public boolean isDragEnabled() {
@@ -36,6 +38,7 @@ public class DragToggleViewPager extends ViewPager {
 		if(dragEnabled) {
 			return super.onInterceptTouchEvent(motionEvent);
 		}
+		super.onInterceptTouchEvent(motionEvent);
 		return gestureDetector.onTouchEvent(motionEvent);
 	}
 	

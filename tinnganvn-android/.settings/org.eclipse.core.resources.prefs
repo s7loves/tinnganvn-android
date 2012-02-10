@@ -1,3 +1,6 @@
-#Tue Feb 07 22:38:12 ICT 2012
+#Fri Feb 10 17:24:17 ICT 2012
 eclipse.preferences.version=1
-encoding//src/com/viettelcdc/tinngan/widget/ArticlePagerAdapter.java=UTF-8
+encoding//src/com/viettelcdc/tinngan/util/Utils.java=UTF-8
+encoding//src/com/viettelcdc/tinngan/widget/adapter/ArticleListAdapter.java=UTF-8
+encoding//src/com/viettelcdc/tinngan/widget/adapter/ArticlePagerAdapter.java=UTF-8
+encoding//src/com/viettelcdc/tinngan/widget/adapter/CategoryPagerAdapter.java=UTF-8

@@ -1,4 +1,4 @@
-package com.viettelcdc.tinngan.widget;
+package com.viettelcdc.tinngan.widget.adapter;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.viettelcdc.tinngan.R;
 import com.viettelcdc.tinngan.entity.Article;
-import com.viettelcdc.tinngan.util.TextUtil;
+import com.viettelcdc.tinngan.util.Utils;
 
 public class ArticlePagerAdapter extends PagerAdapter {
 
@@ -28,7 +28,6 @@ public class ArticlePagerAdapter extends PagerAdapter {
 
 	@Override
 	public int getCount() {
-		Log.i("SIZE", "" + articles.size());
 		return articles.size();
 	}
 
@@ -39,10 +38,16 @@ public class ArticlePagerAdapter extends PagerAdapter {
 		TextView textView = (TextView)view.findViewById(R.id.title);
 		textView.setText(article.title);
 		textView = (TextView)view.findViewById(R.id.date);
-		textView.setText(TextUtil.countHours(article.date, " giờ trước"));
-		WebView content = (WebView)view.findViewById(R.id.content);
+		textView.setText(Utils.formatDate(article.date));
+		WebView webView = (WebView)view.findViewById(R.id.content);
+
+		webView.getSettings().setJavaScriptEnabled(true);
+	    webView.getSettings().setAllowFileAccess(true);
+	    webView.getSettings().setPluginsEnabled(true);
+
+		
 		String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
-		content.loadData(header + article.content, "text/html", "UTF-8");
+		webView.loadData(header + article.content, "text/html", "UTF-8");
 		((ViewPager) collection).addView(view, 0);
 		return view;
 	}

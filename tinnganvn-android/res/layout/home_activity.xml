@@ -3,8 +3,26 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
-    <ListView android:id="@+id/list"
+	<include layout="@layout/banner_layout"
+	    android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    <TabHost
+        android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="fill_parent"
+        android:layout_above="@android:id/tabs" >
+        <RelativeLayout
+            android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+		   	<TabWidget android:id="@android:id/tabs"
+		        android:background="@drawable/bottom_bar"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentBottom="true" />
+		   	<FrameLayout android:id="@android:id/tabcontent"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:layout_above="@android:id/tabs"/>
+		</RelativeLayout>
+    </TabHost>
 </LinearLayout>
