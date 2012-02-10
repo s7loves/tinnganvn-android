@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="hello">Hello World, SplashScreenActivity!</string>
     <string name="app_name">Tinnganvn-android</string>
-
+	<string name="tab_news">Tin tức</string>
+	<string name="tab_video">Đa phương tiện</string>
+	<string name="tab_audio">Báo nói</string>
+	<string name="tab_search">Tìm kiếm</string>
 </resources>

@@ -6,17 +6,14 @@ import java.util.List;
 import android.app.Application;
 
 import com.viettelcdc.tinngan.entity.Category;
+import com.viettelcdc.tinngan.util.ImageLoader;
 
 public class TinnganvnApplication extends Application {
 	private static List<Category> categories;
 	
 	@Override
 	public void onCreate() {
-		categories = new ArrayList<Category>();
+		ImageLoader.makeInstance(this);
 		super.onCreate();
-	}
-
-	public static List<Category> getCategories() {
-		return categories;
 	}
 }

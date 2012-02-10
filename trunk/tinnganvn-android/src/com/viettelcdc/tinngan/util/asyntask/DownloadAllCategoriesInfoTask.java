@@ -26,7 +26,11 @@ public class DownloadAllCategoriesInfoTask extends AsyncTask<Object, Void, Objec
 	
 	@Override
 	public Object doInBackground(Object... params) {
-		List<Category> categories = TinnganvnApplication.getCategories();
+		return loadAllCategories();
+	}
+	
+	public static Object loadAllCategories() {
+		List<Category> categories = Category.getAll();
 		
 		Map<String, Object> soapParams = new HashMap<String, Object>();
 		soapParams.put(USERNAME_PARAM, USERNAME);
