@@ -61,7 +61,7 @@ public class CategoryPagerAdapter extends PagerAdapter implements TitleProvider 
 		final Category category = categories.get(index);
 		final BaseAdapter adapter = new ArticleListAdapter(context, category.getAllArticles());
 		
-		final PullToRefreshListView wrapper = (PullToRefreshListView)view.findViewById(R.id.wrapping_listview);
+		final PullToRefreshListView wrapper = (PullToRefreshListView)view.findViewById(R.id.listview);
 		
 		wrapper.setDisableScrollingWhileRefreshing(true);
 		wrapper.setOnRefreshListener(new OnRefreshListener() {

@@ -41,7 +41,7 @@ public class ArticleListAdapter extends ArrayAdapter<Article> {
 		viewHolder = (ViewHolder) convertView.getTag();
 		viewHolder.title.setText(article.title);
 		viewHolder.date.setText(Utils.formatDate(article.date));
-		viewHolder.lead.setTag(article.lead);
+		viewHolder.lead.setText(article.lead);
 		
 		if(article.image == null) {
 			viewHolder.imageView.setVisibility(View.GONE);

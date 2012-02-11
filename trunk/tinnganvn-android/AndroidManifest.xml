@@ -16,7 +16,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".MultimediaActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".AudioActivity"
+        <activity android:name=".AudioNewsActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".SearchActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
@@ -31,9 +31,12 @@
         </activity>
         
         <activity android:name=".HomeActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustPan" />
         
     </application>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	
 </manifest>
