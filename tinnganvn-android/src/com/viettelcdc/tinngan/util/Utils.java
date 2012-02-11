@@ -7,6 +7,10 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 public abstract class Utils {
 	public static String fromUtf8(String string) throws UnsupportedEncodingException {
 	    byte[] utf8 = string.getBytes("UTF-8");
@@ -53,4 +57,22 @@ public abstract class Utils {
         }
         catch(Exception ex){}
     }
+	
+	static public String wrapByHtmlTag(String content, String baseUrl){
+		final String HEADER = 
+			"<html><head><meta content='text/html; charset=utf-8'/>" +
+			"<base href='" + baseUrl + "' />" +
+			"</head><body style='align:justify;'>";
+		final String FOOTER = "</body></html>";
+		return HEADER + content + FOOTER;
+	}
+	
+	static public boolean isConnectedToInternet(Context context) {
+		ConnectivityManager conMgr =  (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (conMgr == null) return false;
+		NetworkInfo internet = conMgr.getActiveNetworkInfo();
+		if (internet == null) return false;
+		
+		return (internet.isConnected() && internet.isAvailable());
+	}
 }

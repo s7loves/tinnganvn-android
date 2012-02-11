@@ -60,7 +60,7 @@ public class DragToggleViewPager extends ViewPager {
 		return false;
 	}
 
-	public boolean showPrevios() {
+	public boolean showPrevious() {
 		int currentIndex = getCurrentItem();
 		if(currentIndex > 0) {
         	setCurrentItem(currentIndex-1, true);
@@ -87,7 +87,7 @@ public class DragToggleViewPager extends ViewPager {
                 	return viewPager.showNext();
                 } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
                 		&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                	return viewPager.showPrevios();
+                	return viewPager.showPrevious();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

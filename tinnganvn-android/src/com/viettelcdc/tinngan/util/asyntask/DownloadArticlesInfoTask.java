@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.ksoap2.serialization.SoapPrimitive;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.viettelcdc.tinngan.Constants;
 import com.viettelcdc.tinngan.entity.Article;
@@ -20,16 +21,6 @@ import com.viettelcdc.tinngan.util.Utils;
 
 public class DownloadArticlesInfoTask extends AsyncTask<Object, Void, Object>
 		implements Constants {
-
-	static interface ArticleJsonField {
-		static String ID = "ID";
-		static String TITLE = "Title";
-		static String PID = "PID";
-		static String LEAD = "Lead";
-		static String IMAGE = "Image";
-		static String CONTENT = "Content";
-		static String DATE_PUB = "DatePub";
-	}
 
 	private static DateFormat DATE_FORMAT = new SimpleDateFormat("M/d/yyyy h:m:s a");
 
@@ -53,9 +44,17 @@ public class DownloadArticlesInfoTask extends AsyncTask<Object, Void, Object>
 					.invokeSoapMethod(NAMESPACE, GET_BY_CATEGORY, soapParams, WSDL);
 
 			String json = (String) response.toString();
+			List<Article> articles = category.getAllArticles();
+			return parseJsonAsArticleList(json, articles);
+		} catch (Exception e) {
+			return e;
+		}
+	}
+	
+	public static Object parseJsonAsArticleList(String json, List<Article> result) {
+		try {
 			JSONArray jsonArray = new JSONArray(json);
 
-			List<Article> articles = category.getAllArticles();
 			int i = 0;
 			for (;i < jsonArray.length(); ++i) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -64,12 +63,15 @@ public class DownloadArticlesInfoTask extends AsyncTask<Object, Void, Object>
 				article.id = jsonObject.getInt(ArticleJsonField.ID);
 				article.pid = jsonObject.getInt(ArticleJsonField.PID);
 				article.lead = Utils.fromUtf8(jsonObject.getString(ArticleJsonField.LEAD));
+				
 				article.content = Utils.fromUtf8(
 						jsonObject.getString(ArticleJsonField.CONTENT));
-				article.date = DATE_FORMAT.parse(jsonObject
-						.getString(ArticleJsonField.DATE_PUB));
+				
+				String date = jsonObject.getString(ArticleJsonField.DATE_PUB);
+				article.date = DATE_FORMAT.parse(date);
+				
 				article.image = jsonObject.getString(ArticleJsonField.IMAGE);
-				articles.add(article);
+				result.add(article);
 			}
 
 			return i;

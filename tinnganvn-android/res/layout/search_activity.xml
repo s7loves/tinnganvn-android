@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="100"
+    android:orientation="vertical">
+    <RelativeLayout 
+    	android:layout_width="fill_parent"
+    	android:layout_height="0dip"
+    	android:layout_weight="10"
+    	android:orientation="horizontal" >
+    	<ImageButton android:id="@+id/search_button"
+    	    android:layout_width="wrap_content"
+    		android:layout_height="fill_parent"
+    		android:background="@drawable/btn_search"
+    		android:layout_alignParentRight="true"
+    		android:src="@drawable/ic_btn_search"/>
+    	<EditText android:id="@+id/search_edittext"
+    	    android:imeOptions="actionSearch"
+    	    android:inputType="textCapSentences"
+    	    android:layout_width="fill_parent"
+    		android:layout_height="fill_parent"
+    		android:layout_alignParentLeft="true"
+    		android:background="@drawable/textfield_search"
+    		android:layout_toLeftOf="@id/search_button" />
+    </RelativeLayout>
+    <FrameLayout android:layout_width="fill_parent"
+	    android:layout_height="0dip"
+	    android:layout_weight="90">
+		<include layout="@layout/category_view"
+		    android:layout_height="fill_parent"
+			android:layout_width="fill_parent"/>
+		<FrameLayout
+	        android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:background="@drawable/shadow" />
+		<LinearLayout android:id="@+id/search_bg" 
+		    android:gravity="center"
+		    android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:background="@drawable/search_bg" />
+		<include android:id="@+id/search_not_found"
+		    layout="@layout/search_not_found"
+		    android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:visibility="invisible" />
+	</FrameLayout>
+</LinearLayout>

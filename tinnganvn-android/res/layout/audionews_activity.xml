@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <RelativeLayout android:id="@+id/player_control"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingLeft="10dip"
+	    android:paddingRight="10dip"
+	    android:visibility="gone">
+	    <Button android:id="@+id/play_pause_btn"
+		    android:layout_width="wrap_content"
+		   	android:layout_height="wrap_content"
+		   	android:background="@drawable/play"
+		   	android:layout_centerVertical="true"
+		   	android:layout_alignParentLeft="true" />
+	    <TextView
+	        android:id="@+id/current_position"
+	        style="@android:style/TextAppearance.Medium"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_toRightOf="@id/play_pause_btn"
+	        android:text="00:00"
+	        android:textColor="@android:color/white" />
+	    <TextView
+	        android:id="@+id/durration"
+	        style="@android:style/TextAppearance.Medium"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_alignParentRight="true"
+	        android:text="00:00"
+	        android:textColor="@android:color/white"
+	        android:visibility="invisible" />
+	    <SeekBar
+	        android:id="@+id/seekbar"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toLeftOf="@id/durration"
+	        android:layout_toRightOf="@id/current_position"
+	        android:layout_centerVertical="true"
+	        android:paddingLeft="10dip"
+	        android:paddingRight="10dip" />
+	</RelativeLayout>
+    <LinearLayout android:id="@+id/listview"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" />
+</LinearLayout>

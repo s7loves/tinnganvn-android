@@ -23,8 +23,8 @@ public class HomeActivity extends TabActivity {
 		tabHost = getTabHost();
 
 		addTab(R.string.tab_news, R.drawable.tab_home_selector, NewsActivity.class);
-		addTab(R.string.tab_audio, R.drawable.tab_about_selector, AudioActivity.class);
-		addTab(R.string.tab_search, R.drawable.tab_contact_selector, SearchActivity.class);
+		addTab(R.string.tab_audio, R.drawable.tab_about_selector, AudioNewsActivity.class);
+		addTab(R.string.tab_search, R.drawable.ic_btn_search, SearchActivity.class);
 	}
 
 	private String addTab(int titleResource, int drawableId, Class<?> clazz) {
