@@ -23,7 +23,8 @@ public abstract class Utils {
 		long currentTime = System.currentTimeMillis();
 		long hours = currentTime - date.getTime();
 		hours /= MSECS_TO_HOURS;
-		if(hours > 24) return date.getDate() + "/" + date.getMonth();
+		if(hours > 24)
+			return date.getDate() + "/" + (date.getMonth() + 1);
 		return hours + " giờ trước";
 	}
 	

@@ -7,11 +7,14 @@
     android:padding="3dp" >
 	<ImageView 
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
+		android:layout_height="wrap_content"
+		android:src="@drawable/btn_play_normal"
+		android:padding="5dip"/>
 	<TextView android:id="@+id/player_notification_text"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:lines="1"
+		android:textColor="#000"
 		android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
 		style="@android:style/TextAppearance.Medium" />

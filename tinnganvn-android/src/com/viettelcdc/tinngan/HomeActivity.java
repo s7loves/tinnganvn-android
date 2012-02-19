@@ -9,6 +9,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 public class HomeActivity extends TabActivity {
+	public static String TAB_EXTRA = "tab";
 	
 	private TabHost tabHost;
 	
@@ -21,10 +22,18 @@ public class HomeActivity extends TabActivity {
 	
 	private void setupTabHost() {
 		tabHost = getTabHost();
-
 		addTab(R.string.tab_news, R.drawable.tab_home_selector, NewsActivity.class);
+		addTab(R.string.tab_most_read, R.drawable.tab_home_selector, MostReadActivity.class);
+		addTab(R.string.tab_video, R.drawable.tab_home_selector, VideoNewsActivity.class);
 		addTab(R.string.tab_audio, R.drawable.tab_about_selector, AudioNewsActivity.class);
 		addTab(R.string.tab_search, R.drawable.ic_btn_search, SearchActivity.class);
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		String tag = intent.getStringExtra(TAB_EXTRA);
+		tabHost.setCurrentTabByTag(tag);
+		super.onNewIntent(intent);
 	}
 
 	private String addTab(int titleResource, int drawableId, Class<?> clazz) {

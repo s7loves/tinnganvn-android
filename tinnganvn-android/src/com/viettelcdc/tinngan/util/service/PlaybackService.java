@@ -7,16 +7,17 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.viettelcdc.tinngan.HomeActivity;
 import com.viettelcdc.tinngan.R;
-import com.viettelcdc.tinngan.entity.AudioNews;
+import com.viettelcdc.tinngan.entity.AudioTrack;
 
 public class PlaybackService extends ForegroundService implements OnPreparedListener, OnBufferingUpdateListener, OnCompletionListener {
 	private static final int NOTIFICATION_ID = 1;
 	
-    static final String TRACK_EXTRA = "track";
+    public static final String TRACK_EXTRA = "track";
 	
 	static PlaybackService running = null;
 
@@ -25,10 +26,19 @@ public class PlaybackService extends ForegroundService implements OnPreparedList
 	static Notification notification = null;
 	static RemoteViews expandView;
 	static MediaPlayer mediaPlayer;
-	static AudioNews track;
+	static AudioTrack track;
 	
 	static private OnPreparedListener onPreparedListener;
 	static private OnBufferingUpdateListener bufferingListener;
+	public static interface OnPlayListener {
+		void onPlay();
+	}
+	
+	static private OnPlayListener onPlayListener;
+	
+	public static void setOnPlayListener(OnPlayListener playListener) {
+		onPlayListener = playListener;
+	}
 	
 	static private boolean buffering = false;
 	
@@ -43,6 +53,7 @@ public class PlaybackService extends ForegroundService implements OnPreparedList
 					R.layout.player_notification);
 			notification.contentView = expandView;
 			Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+			intent.putExtra(HomeActivity.TAB_EXTRA, getString(R.string.tab_audio));
 			notification.contentIntent = PendingIntent.getActivity(this, 0,
 					intent, 0);
 		}
@@ -61,18 +72,20 @@ public class PlaybackService extends ForegroundService implements OnPreparedList
 			if (lastSavedPosition != 0) {
 				seekTo(lastSavedPosition);
 				mediaPlayer.start();
-				return;
+				if(onPlayListener != null) {
+					onPlayListener.onPlay();
+				}
+			} else {	
+				if(track == null) stopSelf();
+				initMediaPlayer();
+				mediaPlayer.setDataSource(track.streamUrl);
+				mediaPlayer.prepareAsync();
+				buffering = true;
 			}
 			
-			if(track == null) stopSelf();
-			initMediaPlayer();
-			mediaPlayer.setDataSource(track.streamUrl);
-			
-			buffering = true;
 			notification.tickerText = track.title;
 			expandView.setTextViewText(R.id.player_notification_text, track.title);
 			startForegroundCompat(NOTIFICATION_ID, notification);
-			mediaPlayer.prepareAsync();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,9 +93,12 @@ public class PlaybackService extends ForegroundService implements OnPreparedList
 
 	@Override
 	public void onDestroy() {
+
 		lastSavedPosition = getCurrentPosition();
 		if(mediaPlayer.isPlaying()){
 			mediaPlayer.pause();
+		} else {
+			mediaPlayer = null;
 		}
 		running = null;
 		super.onDestroy();
@@ -96,18 +112,18 @@ public class PlaybackService extends ForegroundService implements OnPreparedList
 		mediaPlayer.seekTo((getDuration() * percent) / 100);
 	}
 	
-	public static AudioNews getCurrentTrack() {
+	public static AudioTrack getCurrentTrack() {
 		return track;
 	}
 
 	public static int getCurrentPosition() {
-		if (mediaPlayer.isPlaying())
+		if (mediaPlayer != null && mediaPlayer.isPlaying())
 			return mediaPlayer.getCurrentPosition();
 		return 0;
 	}
 
 	public static int getDuration() {
-		if (mediaPlayer.isPlaying())
+		if (mediaPlayer != null && mediaPlayer.isPlaying())
 			return mediaPlayer.getDuration();
 		return 0;
 	}
@@ -116,17 +132,25 @@ public class PlaybackService extends ForegroundService implements OnPreparedList
 		return running != null;
 	}
 
-	public boolean isBuffering() {
-		return buffering;
+	public static boolean isBuffering() {
+		return running != null && buffering;
 	}
 	
-	public boolean isPlaying(){
-		return mediaPlayer.isPlaying();
+	public static boolean isPlaying(){
+		return mediaPlayer != null && mediaPlayer.isPlaying();
+	}
+	
+	public static boolean isPausing(){
+		return lastSavedPosition != 0 && !isPlaying();
 	}
 	
     @Override
     public void onStart(Intent intent, int startId) {
-        track = (AudioNews) intent.getSerializableExtra(TRACK_EXTRA);
+        AudioTrack newTrack = (AudioTrack) intent.getSerializableExtra(TRACK_EXTRA);
+        if(newTrack != null) {
+        	track = newTrack;
+        	lastSavedPosition = 0;
+        }
         play();
     }
 
@@ -136,9 +160,15 @@ public class PlaybackService extends ForegroundService implements OnPreparedList
     
     @Override
 	public void onPrepared(MediaPlayer arg0) {
-		if(running != null) {
+    	if(isRunning() && mediaPlayer != null) {
 			mediaPlayer.start();
-			onPreparedListener.onPrepared(mediaPlayer);
+			if(onPlayListener != null) {
+				onPlayListener.onPlay();
+			}
+			if(onPreparedListener != null) {
+				onPreparedListener.onPrepared(mediaPlayer);
+			}
+			
 		}
 	}
 	
@@ -151,11 +181,19 @@ public class PlaybackService extends ForegroundService implements OnPreparedList
 			int percent) {
 		if (percent == 100)
 			buffering = false;
-		bufferingListener.onBufferingUpdate(mp, percent);
+		if(bufferingListener != null) {
+			bufferingListener.onBufferingUpdate(mp, percent);
+		}
 	}
 	
 	@Override
 	public void onCompletion(MediaPlayer mp) {
-		lastSavedPosition = 0;
+		stopSelf();
+	}
+	
+	public static void stop() {
+		if(isRunning()) {
+			running.stopSelf();
+		}
 	}
 }
