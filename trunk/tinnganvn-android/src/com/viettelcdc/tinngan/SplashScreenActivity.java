@@ -129,13 +129,15 @@ public class SplashScreenActivity extends Activity implements Constants {
 			JSONArray jsonArray = new JSONArray(json);
 			
 			categories.clear();
+			Category.getAll().add(HOMEPAGE);
 			
 			for (int i = 0; i < jsonArray.length(); ++i) {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				Category category = new Category();
-				category.name = jsonObject.getString(CATEGORY_NAME);
-				category.id = jsonObject.getInt(CATEGORY_ID);
-
+				
+				String name = jsonObject.getString(CATEGORY_NAME);
+				int id = jsonObject.getInt(CATEGORY_ID);
+				Category category = new Category(name, id);
+				
 				categories.add(category);
 			}
 

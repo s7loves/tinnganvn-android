@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import org.ksoap2.serialization.SoapPrimitive;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.viettelcdc.tinngan.Constants;
 import com.viettelcdc.tinngan.entity.Article;
@@ -67,7 +66,7 @@ public class DownloadArticlesInfoTask extends AsyncTask<Object, Void, Object>
 				article.content = Utils.fromUtf8(
 						jsonObject.getString(ArticleJsonField.CONTENT));
 				
-				String date = jsonObject.getString(ArticleJsonField.DATE_PUB);
+				String date = jsonObject.getString(ArticleJsonField.DATE);
 				article.date = DATE_FORMAT.parse(date);
 				
 				article.image = jsonObject.getString(ArticleJsonField.IMAGE);

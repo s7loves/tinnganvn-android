@@ -5,7 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category implements Serializable {
-	private transient static List<Category> categories = new ArrayList<Category>();
+	private transient static List<Category> categories = new ArrayList<Category>();	
+	
+	public String name;
+	public int id;
+	
+	private List<Article> articles = new ArrayList<Article>();
+	
+	public Category(String name, int id) {
+		this.name = name;
+		this.id = id;
+	}
+	
+	public List<Article> getAllArticles() {
+		return articles;
+	}
 	
 	public static List<Category> getAll() {
 		return categories;
@@ -17,14 +31,5 @@ public class Category implements Serializable {
 				return category;
 		}
 		return null;
-	}
-	
-	public String name;
-	public int id;
-	
-	private List<Article> articles = new ArrayList<Article>();
-	
-	public List<Article> getAllArticles() {
-		return articles;
 	}
 }

@@ -89,6 +89,7 @@ public class ForegroundService extends Service {
 
     @Override
     public void onCreate() {
+    	super.onCreate();
         notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         try {
             mStartForeground = getClass().getMethod("startForeground",
@@ -112,6 +113,8 @@ public class ForegroundService extends Service {
     @Override
     public void onDestroy() {
         stopForegroundCompat(notificationId);
+        notificationManager.cancel(notificationId);
+        super.onDestroy();
     }
     
     @Override
